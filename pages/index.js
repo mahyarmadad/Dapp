@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import {Button} from "@mui/material";
 import Head from "next/head";
 
 export default function Home() {

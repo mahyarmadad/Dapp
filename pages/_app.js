@@ -1,22 +1,18 @@
-import { RecoilRoot } from "recoil";
-import { CacheProvider } from "@emotion/react";
-import createCache from "@emotion/cache";
-import { responsiveFontSizes, ThemeProvider } from "@mui/material";
+import {RecoilRoot} from "recoil";
+import {CacheProvider} from "@emotion/react";
+import {responsiveFontSizes, ThemeProvider} from "@mui/material";
 import ThemeFile from "/styles/theme";
 import CssBaseline from "@mui/material/CssBaseline";
-import { ToastContainer } from "material-react-toastify";
+import {ToastContainer} from "material-react-toastify";
+import createEmotionCache from "@Functions/emotionCache";
 
 import "material-react-toastify/dist/ReactToastify.css";
 import "../styles/globals.scss";
 
-function createEmotionCache() {
-  return createCache({ key: "css", prepend: true });
-}
-
 const clientSideEmotionCache = createEmotionCache();
 
 function MyApp(props) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const {Component, emotionCache = clientSideEmotionCache, pageProps} = props;
   const theme = responsiveFontSizes(ThemeFile);
 
   return (
