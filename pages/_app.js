@@ -8,6 +8,7 @@ import createEmotionCache from "@Functions/emotionCache";
 
 import "material-react-toastify/dist/ReactToastify.css";
 import "../styles/globals.scss";
+import Header from "@Components/Header";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -18,7 +19,7 @@ function MyApp(props) {
   return (
     <CacheProvider value={emotionCache}>
       <RecoilRoot>
-        {/* <Header /> */}
+        <Header />
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <ToastContainer />

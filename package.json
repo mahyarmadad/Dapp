@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -20,7 +20,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "recoil": "^0.7.4",
-    "sass": "^1.54.0"
+    "sass": "^1.54.0",
+    "web3": "^1.7.4"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",
