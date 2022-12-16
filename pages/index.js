@@ -2,7 +2,7 @@ import {useWeb3Provider} from "@Hooks/web3Provider";
 import {Button, Typography} from "@mui/material";
 import {userAccountsRecoil} from "@Recoil/user";
 import {toast} from "material-react-toastify";
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import {useRecoilState} from "recoil";
 
 export default function Home() {
@@ -10,35 +10,36 @@ export default function Home() {
   const [userAccounts, setUserAccounts] = useRecoilState(userAccountsRecoil);
 
   const web3Api = useWeb3Provider();
-
-  useEffect(() => {
-    console.log("web3Api", web3Api);
-  }, [web3Api]);
+  
+  const hasMetaMask = useMemo(() => {
+    if (typeof window === "undefined") return false;
+    return window.ethereum;
+  }, []);
 
   const onConnectClick = useCallback(() => {
+    if (!hasMetaMask) return window.open("https://metamask.io/", "_blank");
     window.ethereum
       .request({method: "eth_requestAccounts"})
-      .then((a) => setUserAccounts(a))
+      .then((a) => setUserAccounts(a[0]))
       .catch((e) => toast.error(e.message));
-  }, []);
+  }, [hasMetaMask, setUserAccounts]);
+
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="text-center">
         <div className="mb-2">
-          {userAccounts?.length ? (
-            userAccounts.map((item) => (
-              <div className="flex items-center" key={item}>
-                <Typography variant="subtitle2" className="mr-2">
-                  Account:{" "}
-                </Typography>
-                <Typography key={item} variant="caption" color="textSecondary">
-                  {item}
-                </Typography>
-              </div>
-            ))
+          {userAccounts ? (
+            <div className="flex items-center">
+              <Typography variant="subtitle2" className="mr-2">
+                Account:{" "}
+              </Typography>
+              <Typography variant="caption" color="textSecondary">
+                {userAccounts}
+              </Typography>
+            </div>
           ) : (
             <Button variant="outlined" color="inherit" onClick={onConnectClick}>
-              Connect to Account
+              {hasMetaMask ? "Connect to Account" : "Install Metamask"}
             </Button>
           )}
         </div>
