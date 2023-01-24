@@ -4,6 +4,7 @@ import Web3 from "web3";
 export const useWeb3Provider = () => {
   const provider = useRef();
   const isLoading = useRef(true);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     isLoading.current = true;

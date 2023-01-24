@@ -1,16 +1,15 @@
 import {useWeb3Provider} from "@Hooks/web3Provider";
 import {Button, Typography} from "@mui/material";
 import {userAccountsRecoil} from "@Recoil/user";
-import {toast} from "material-react-toastify";
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {useRecoilState} from "recoil";
 
 export default function Home() {
-  const [ethNumber, setEthNumber] = useState(10);
+  const [ethNumber, setEthNumber] = useState(0);
   const [userAccounts, setUserAccounts] = useRecoilState(userAccountsRecoil);
 
   const web3Api = useWeb3Provider();
-  
+
   const hasMetaMask = useMemo(() => {
     if (typeof window === "undefined") return false;
     return window.ethereum;
@@ -21,8 +20,12 @@ export default function Home() {
     window.ethereum
       .request({method: "eth_requestAccounts"})
       .then((a) => setUserAccounts(a[0]))
-      .catch((e) => toast.error(e.message));
+      .catch((e) => console.log("eth_requestAccounts", e.message));
   }, [hasMetaMask, setUserAccounts]);
+
+  useEffect(() => {
+    console.log("web3Api", web3Api);
+  }, [web3Api]);
 
   return (
     <div className="flex items-center justify-center h-screen">
@@ -39,12 +42,12 @@ export default function Home() {
             </div>
           ) : (
             <Button variant="outlined" color="inherit" onClick={onConnectClick}>
-              {hasMetaMask ? "Connect to Account" : "Install Metamask"}
+              Connect to Account
             </Button>
           )}
         </div>
 
-        <Typography variant="h4">
+        <Typography variant="h4" className="my-4">
           Current Balance: <strong>{ethNumber}</strong> ETH
         </Typography>
 

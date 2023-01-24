@@ -1,35 +1,29 @@
-import {RecoilRoot} from "recoil";
-import {CacheProvider} from "@emotion/react";
-import {responsiveFontSizes, ThemeProvider} from "@mui/material";
-import ThemeFile from "/styles/theme";
+import * as React from "react";
+import {ThemeProvider} from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import {ToastContainer} from "material-react-toastify";
-import createEmotionCache from "@Functions/emotionCache";
-
-import "material-react-toastify/dist/ReactToastify.css";
-import "../styles/globals.scss";
+import {CacheProvider} from "@emotion/react";
 import Header from "@Components/Header";
-
+import theme from "styles/theme";
+import createEmotionCache from "@Functions/createEmotionCache";
+import {RecoilRoot} from "recoil";
+import "styles/globals.css";
+// import {SnackbarProvider} from "notistack";
 const clientSideEmotionCache = createEmotionCache();
 
-function MyApp(props) {
+export default function MyApp(props) {
   const {Component, emotionCache = clientSideEmotionCache, pageProps} = props;
-  const theme = responsiveFontSizes(ThemeFile);
 
   return (
-    <CacheProvider value={emotionCache}>
-      <RecoilRoot>
+    <RecoilRoot>
+      <CacheProvider value={emotionCache}>
         <Header />
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <ToastContainer />
-          {/* <MiddleApp> */}
+          {/* <SnackbarProvider> */}
           <Component {...pageProps} />
-          {/* </MiddleApp> */}
+          {/* </SnackbarProvider> */}
         </ThemeProvider>
-      </RecoilRoot>
-    </CacheProvider>
+      </CacheProvider>
+    </RecoilRoot>
   );
 }
-
-export default MyApp;
